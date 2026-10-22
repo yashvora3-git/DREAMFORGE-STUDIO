@@ -85,7 +85,23 @@ dl div{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0;borde
 dl div:first-child{border-top:1px solid var(--line)}
 dt{color:var(--mute)} dd{margin:0;font-weight:400;text-align:right}
 
-.game{margin-top:3rem;border:1px solid var(--line);padding:1.4rem}
+.game{margin-top:1.6rem;border:1px solid var(--line);padding:1.4rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+.tab{font:inherit;font-weight:400;color:var(--ink);background:none;border:1px solid var(--line);border-radius:999px;padding:.55rem 1.2rem;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.tab:hover{border-color:var(--heat1)}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.sm{padding:.35rem 1rem;font-size:.95rem;margin-left:auto}
+.game .note{min-height:1.6em;margin:.8rem 0 0;color:var(--mute)}
+.b48{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:min(100%,380px);aspect-ratio:1;padding:8px;border:1px solid var(--line);touch-action:none;user-select:none;outline-offset:3px}
+.cell{display:grid;place-items:center;border-radius:6px;background:color-mix(in srgb,var(--ink) 6%,transparent);font-size:clamp(1.1rem,5.5vw,2rem);font-weight:500}
+.cell.born{animation:born .2s ease-out}
+@keyframes born{from{transform:scale(.5)}to{transform:none}}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:min(100%,380px)}
+.card{aspect-ratio:1;font:inherit;font-size:clamp(1.4rem,7vw,2.2rem);color:var(--mute);background:color-mix(in srgb,var(--ink) 6%,transparent);border:1px solid var(--line);border-radius:10px;cursor:pointer;padding:0;transition:background .2s,border-color .2s}
+.card:hover{border-color:var(--heat1)}
+.card.on{animation:flip .3s ease-out;background:var(--paper);border-color:var(--ink);color:var(--ink)}
+.card.done{border-color:var(--heat1);background:color-mix(in srgb,var(--heat1) 18%,var(--paper))}
+@keyframes flip{from{transform:rotateY(90deg)}to{transform:none}}
 .game h3{margin:0;font-size:1.3rem;font-weight:400}
 .game p{margin:.2rem 0 0;color:var(--mute)}
 .gstats{display:flex;flex-wrap:wrap;gap:1.6rem;margin:1rem 0;font-size:1.05rem}
@@ -105,8 +121,40 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-ite
 footer p{margin:0;color:var(--mute);font-size:.95rem}
 footer a:hover{color:var(--heat1)}
 
+
+.cur-on #games,.cur-on #games *{cursor:auto!important}
+.cur-on #games button{cursor:pointer!important}
+.cdot,.cring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;transform:translate3d(var(--x,-100px),var(--y,-100px),0) translate(-50%,-50%);transition:opacity .2s}
+.cdot{width:840px;height:840px;border-radius:50%;z-index:-1;background:radial-gradient(circle,rgba(255,200,90,.32) 0,var(--glow) 22%,transparent 70%)}
+@keyframes flick{0%,100%{scale:1}50%{scale:1.15}}
+.cring{display:none}
+.cring i{display:block;width:100%;height:100%;border-radius:50%;border:1.5px solid var(--heat1);transition:transform .25s,background .25s}
+.cring.hot i{transform:scale(1.7);background:rgba(255,77,18,.14)}
+.cring.down i{transform:scale(.7)}
+.cdot.off,.cring.off{opacity:0}
+.ctrail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998}
+.page{padding-top:clamp(7rem,14vw,9rem)}
+.page h1{margin:0 0 1rem;font-size:clamp(2.2rem,6vw,4rem);font-weight:200;line-height:1.1}
+.prose{max-width:42em}
+.prose h3{margin:2.2rem 0 .5rem;font-size:1.25rem;font-weight:500}
+.prose p,.prose li{color:var(--mute);font-size:1.08rem;margin:.5rem 0}
+.prose ul{padding-left:1.2rem}
+.prose a{color:var(--ink);border-bottom:1px solid var(--heat1)}
+.meta{color:var(--mute);margin:0 0 1.6rem}
+.back{display:inline-block;margin-top:2.6rem;border-bottom:1px solid var(--heat1)}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:3rem;margin-top:2.4rem;align-items:start}
+.field{display:block;margin-bottom:1.1rem}
+.field span{display:block;margin-bottom:.35rem;color:var(--mute);font-size:.95rem}
+.field input,.field textarea{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:8px;padding:.7rem .9rem;transition:border-color .25s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--heat1)}
+.field textarea{min-height:9rem;resize:vertical}
+a.btn{display:inline-block;text-decoration:none}
+.note{margin:.8rem 0 0;color:var(--mute);font-size:.95rem}
+.flinks{display:flex;flex-wrap:wrap;gap:1.4rem}
+.flinks a:hover{color:var(--heat1)}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .cdot{animation:none}
   .mark{animation:none;clip-path:none}
   .tag,.go{animation:none;opacity:1}
   .status i{animation:none}
@@ -118,7 +166,7 @@ footer a:hover{color:var(--heat1)}
 <body>
 <header>
   <div class="wrap">
-    <a class="brand" href="#top">DREAMFORGE STUDIO</a>
+    <a class="brand" href="#top" data-pg="">DREAMFORGE STUDIO</a>
     
   </div>
 </header>
@@ -145,19 +193,46 @@ footer a:hover{color:var(--heat1)}
     </div>
   </section>
 
-  <section id="tinyverse">
+  <section id="games">
     <div class="wrap">
-      <div class="status"><i></i>Upcoming title</div>
-      <h2 class="word" id="tword" aria-label="Tinyverse" style="max-width:none;font-size:clamp(3.2rem,14vw,10.5rem)"></h2>
-      <p class="sub">A small world adventure.</p>
-      <div class="game" id="game">
+      <h2>Play something while you wait.</h2>
+      <p class="lead">Three quick games from the forge. Pick one and chase a new best score.</p>
+      <div class="tabs" role="tablist" aria-label="Mini games">
+        <button class="tab on" role="tab" aria-selected="true" aria-controls="p-spark" data-p="p-spark" type="button">Spark catch</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-2048" data-p="p-2048" type="button">2048</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-mem" data-p="p-mem" type="button">Memory match</button>
+      </div>
+      <div class="game" id="p-spark" role="tabpanel">
         <h3>Spark catch</h3>
-        <p>While you wait for Tinyverse, catch the sparks before they fade. You have 20 seconds.</p>
+        <p>Catch the sparks before they fade. You have 20 seconds.</p>
         <div class="gstats"><span>Score <b id="gs">0</b></span><span>Time <b id="gt">20</b></span><span>Best <b id="gb">0</b></span></div>
         <div class="arena" id="arena" role="group" aria-label="Spark catch game area">
           <div class="msg" id="gmsg"><p id="gtext">Ready when you are.</p><button class="btn" id="gstart" type="button">Start game</button></div>
         </div>
       </div>
+      <div class="game" id="p-2048" role="tabpanel" hidden>
+        <h3>2048</h3>
+        <p>Slide the tiles and merge matching numbers to reach 2048.</p>
+        <div class="gstats"><span>Score <b id="s48">0</b></span><span>Best <b id="b48">0</b></span><button class="btn sm" id="n48" type="button">New game</button></div>
+        <div class="b48" id="board48" tabindex="0" role="application" aria-label="2048 board. Use arrow keys to move tiles."></div>
+        <p class="note" id="t48"></p>
+      </div>
+      <div class="game" id="p-mem" role="tabpanel" hidden>
+        <h3>Memory match</h3>
+        <p>Flip two cards at a time and find all the pairs in as few moves as you can.</p>
+        <div class="gstats"><span>Moves <b id="mv">0</b></span><span>Pairs <b id="pr">0/8</b></span><span>Best <b id="bm">-</b></span><button class="btn sm" id="nm" type="button">New game</button></div>
+        <div class="mgrid" id="mgrid"></div>
+        <p class="note" id="tm"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tinyverse">
+    <div class="wrap">
+      <div class="status"><i></i>Upcoming title</div>
+      <h2 class="word" id="tword" aria-label="Tinyverse" style="max-width:none;font-size:clamp(3.2rem,14vw,10.5rem)"></h2>
+      <p class="sub">A small world adventure.</p>
+      
       <div class="info">
         <p>Tinyverse invites you into a tiny world with a whole lot to discover. More details will be shared as the adventure takes shape.</p>
         <dl>
@@ -172,11 +247,72 @@ footer a:hover{color:var(--heat1)}
   </section>
 </main>
 
+<div id="pages">
+  <section class="page" id="pg-about" hidden><div class="wrap">
+    <h1>About us</h1>
+    <div class="prose">
+      <p>Dreamforge Studio is a game development studio. We shape ideas into playable worlds, from the first spark to the last polish.</p>
+      <h3>What we believe</h3>
+      <p>Games should feel like a gift: surprising, warm and made with care. We start with imagination, craft every detail by hand, and keep play at the center of everything we build.</p>
+      <h3>What we are building</h3>
+      <p>Our first upcoming title is Tinyverse, a small world adventure. We will share more as it takes shape.</p>
+      <a class="back" href="#top" data-pg="">Back to home</a>
+    </div>
+  </div></section>
+
+  <section class="page" id="pg-contact" hidden><div class="wrap">
+    <h1>Contact us</h1>
+    <p class="lead">Questions, ideas or just want to say hello? Write to us and we will get back to you.</p>
+    <div class="contact">
+      <div class="prose">
+        <h3 style="margin-top:0">Email</h3>
+        <p><a id="mail1" href="#"></a></p>
+        <h3>Studio</h3>
+        <p>Dreamforge Studio</p>
+      </div>
+      <div>
+        <label class="field"><span>Your name</span><input id="cn" type="text" autocomplete="name"></label>
+        <label class="field"><span>Your email</span><input id="ce" type="email" autocomplete="email"></label>
+        <label class="field"><span>Message</span><textarea id="cm"></textarea></label>
+        <a class="btn" id="cgo" href="#" target="_blank" rel="noopener">Send message</a>
+        <p class="note">This opens your email app with your message ready to send.</p>
+      </div>
+    </div>
+    <a class="back" href="#top" data-pg="">Back to home</a>
+  </div></section>
+
+  <section class="page" id="pg-privacy" hidden><div class="wrap">
+    <h1>Privacy policy</h1>
+    <p class="meta">Last updated: October 22, 2026</p>
+    <div class="prose">
+      <p>This website belongs to Dreamforge Studio. We keep things simple and collect as little information as we can.</p>
+      <h3>Information we collect</h3>
+      <p>This site does not ask you to create an account, and it does not include advertising or analytics trackers. We do not use cookies to track you.</p>
+      <h3>Mini games</h3>
+      <p>Scores in the mini games stay in your browser while the page is open. They are not sent to us or stored on a server.</p>
+      <h3>Third-party services</h3>
+      <ul>
+        <li>Fonts are loaded from Google Fonts, which may receive your IP address and browser details when the page loads. Google handles that data under its own privacy policy.</li>
+        <li>Our hosting provider may keep standard server logs, such as IP address and time of visit, for security and reliability.</li>
+      </ul>
+      <h3>When you contact us</h3>
+      <p>The contact page only opens your email app. Nothing is sent until you send the email yourself. If you write to us, we receive your email address and message, and we use them only to reply. We do not sell or share them.</p>
+      <h3>Children</h3>
+      <p>This website is not directed at children under 13, and we do not knowingly collect personal information from them.</p>
+      <h3>Your choices</h3>
+      <p>You can ask us to delete any emails you have sent us at any time by writing through the contact page.</p>
+      <h3>Changes to this policy</h3>
+      <p>We may update this policy from time to time. The date at the top shows when it last changed.</p>
+      <a class="back" href="#top" data-pg="">Back to home</a>
+    </div>
+  </div></section>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="logo-sm" role="img" aria-label="Dreamforge Studio logo"></div>
     <p>© 2026 Dreamforge Studio. All rights reserved.</p>
-    <a href="#top">Back to top</a>
+    <div class="flinks"><a href="#about" data-pg="about">About us</a><a href="#contact" data-pg="contact">Contact us</a><a href="#privacy" data-pg="privacy">Privacy policy</a><a href="#top" data-pg="">Back to top</a></div>
   </div>
 </footer>
 
@@ -234,6 +370,189 @@ document.documentElement.classList.add('js');
   }
   requestAnimationFrame(frame);
 
+  /* cursor effect (everywhere except mini games) */
+  (function(){
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var root = document.documentElement, dot = document.createElement('div'), ring = document.createElement('div'), tc = document.createElement('canvas');
+    dot.className = 'cdot off'; ring.className = 'cring off'; ring.innerHTML = '<i></i>'; tc.className = 'ctrail'; tc.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(tc); document.body.appendChild(ring); document.body.appendChild(dot); root.classList.add('cur-on');
+    var tctx = tc.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2), W, H;
+    function rs(){ W = innerWidth; H = innerHeight; tc.width = W * dpr; tc.height = H * dpr; tctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    rs(); addEventListener('resize', rs);
+    var mx = -100, my = -100, rx = -100, ry = -100, lx = -100, ly = -100, trail = [], had = false, emit = false;
+    function setOff(v){ dot.classList.toggle('off', v); ring.classList.toggle('off', v); }
+    document.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      var t = e.target, inGames = !!(t.closest && t.closest('#games')), inHero = !!(t.closest && t.closest('#hero'));
+      if (ring.classList.contains('off') && !inGames){ rx = e.clientX; ry = e.clientY; }
+      mx = e.clientX; my = e.clientY; emit = !inGames && !inHero; setOff(!emit);
+      lx = mx; ly = my;
+    });
+    document.addEventListener('pointerdown', function(e){
+      if (!emit || reduce || e.pointerType !== 'mouse') return;
+      for (var n = 0; n < 40; n++){ var a = Math.random() * 6.283, v = Math.random() * 3; trail.push({x:mx, y:my, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 1.2, l:0, m:50 + Math.random() * 60, r:1 + Math.random() * 2.2}); }
+    });
+    document.addEventListener('pointerup', function(){ ring.classList.remove('down'); });
+    document.documentElement.addEventListener('mouseleave', function(){ emit = false; setOff(true); });
+    (function loop(){
+      requestAnimationFrame(loop);
+      rx += (mx - rx) * .18; ry += (my - ry) * .18;
+      dot.style.setProperty('--x', mx + 'px'); dot.style.setProperty('--y', my + 'px');
+      ring.style.setProperty('--x', rx + 'px'); ring.style.setProperty('--y', ry + 'px');
+      if (emit && !reduce){
+        for (var n = 0; n < 2; n++){
+          if (trail.length < 220){ var a = Math.random() * 6.283, v = Math.random() * 1.4; trail.push({x:mx, y:my, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 1.2, l:0, m:50 + Math.random() * 60, r:1 + Math.random() * 2.2}); }
+        }
+      }
+      if (trail.length || had){
+        tctx.clearRect(0, 0, W, H); had = trail.length > 0;
+        for (var i = trail.length - 1; i >= 0; i--){
+          var p = trail[i]; p.l++; p.x += p.vx; p.y += p.vy; p.vy -= .02; p.vx *= .99;
+          if (p.l > p.m){ trail.splice(i, 1); continue; }
+          var k = 1 - p.l / p.m;
+          tctx.fillStyle = 'rgba(255,' + Math.round(80 + 120 * k) + ',40,' + (k * .85).toFixed(2) + ')';
+          tctx.beginPath(); tctx.arc(p.x, p.y, p.r * (.4 + k), 0, 6.283); tctx.fill();
+        }
+      }
+    })();
+  })();
+
+  /* pages */
+  (function(){
+    var main = document.getElementById('top'), names = ['about', 'contact', 'privacy'], TO = 'hello@example.com';
+    function show(n){
+      var p = names.indexOf(n) > -1 ? n : '';
+      main.hidden = !!p;
+      names.forEach(function(k){ document.getElementById('pg-' + k).hidden = k !== p; });
+    }
+    addEventListener('hashchange', function(){ show(location.hash.slice(1)); });
+    document.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a[data-pg]'); if (!a) return;
+      e.preventDefault(); var n = a.getAttribute('data-pg');
+      show(n); window.scrollTo({top:0, behavior:'instant'});
+      try { location.hash = n || 'top'; } catch (x) {}
+    });
+    show(location.hash.slice(1));
+    var m1 = document.getElementById('mail1'), go = document.getElementById('cgo');
+    var cn = document.getElementById('cn'), ce = document.getElementById('ce'), cm = document.getElementById('cm');
+    m1.textContent = TO; m1.href = 'mailto:' + TO;
+    function upd(){
+      var n = cn.value.trim(), em = ce.value.trim();
+      go.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('Message from ' + (n || 'a visitor')) + '&body=' + encodeURIComponent(cm.value) + '%0A%0A' + encodeURIComponent(n + (em ? ' (' + em + ')' : ''));
+    }
+    [cn, ce, cm].forEach(function(el){ el.addEventListener('input', upd); }); upd();
+  })();
+
+  /* tabs */
+  (function(){
+    var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('#games .game');
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){
+        tabs.forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-selected', 'false'); });
+        t.classList.add('on'); t.setAttribute('aria-selected', 'true');
+        panels.forEach(function(p){ p.hidden = p.id !== t.dataset.p; });
+      });
+    });
+  })();
+
+  /* 2048 */
+  (function(){
+    var board = document.getElementById('board48'), s48 = document.getElementById('s48'), b48 = document.getElementById('b48'), t48 = document.getElementById('t48'), n48 = document.getElementById('n48');
+    var cells = [], g, sc, bs = 0, over, won;
+    for (var i = 0; i < 16; i++){ var c = document.createElement('div'); c.className = 'cell'; board.appendChild(c); cells.push(c); }
+    function add(){
+      var e = []; g.forEach(function(v, i){ if (!v) e.push(i); });
+      if (!e.length) return -1;
+      var k = e[Math.floor(Math.random() * e.length)]; g[k] = Math.random() < .9 ? 2 : 4; return k;
+    }
+    function line(a){
+      var r = a.filter(Boolean), s = 0;
+      for (var i = 0; i < r.length - 1; i++){ if (r[i] === r[i+1]){ r[i] *= 2; s += r[i]; r.splice(i + 1, 1); } }
+      while (r.length < 4) r.push(0);
+      return {a:r, s:s};
+    }
+    function render(ni){
+      s48.textContent = sc; if (sc > bs){ bs = sc; b48.textContent = bs; }
+      cells.forEach(function(el, i){
+        var v = g[i]; el.textContent = v || ''; el.className = 'cell' + (i === ni ? ' born' : '');
+        el.style.background = v ? 'color-mix(in srgb,var(--heat1) ' + Math.min(100, Math.log2(v) * 9) + '%,var(--paper))' : '';
+        el.style.color = v >= 16 ? '#fff' : ''; el.style.fontSize = v >= 1024 ? '.75em' : '';
+      });
+    }
+    function canMove(){
+      for (var i = 0; i < 16; i++){ if (!g[i]) return true; if (i % 4 < 3 && g[i] === g[i+1]) return true; if (i < 12 && g[i] === g[i+4]) return true; }
+      return false;
+    }
+    function move(d){
+      if (over) return;
+      var moved = false, gain = 0;
+      for (var k = 0; k < 4; k++){
+        var idx = [0,1,2,3].map(function(j){ return d < 2 ? k*4 + (d ? 3 - j : j) : (d === 2 ? j : 3 - j) * 4 + k; });
+        var res = line(idx.map(function(i){ return g[i]; }));
+        idx.forEach(function(i, j){ if (g[i] !== res.a[j]) moved = true; g[i] = res.a[j]; });
+        gain += res.s;
+      }
+      if (!moved) return;
+      sc += gain; render(add());
+      if (!canMove()){ over = true; t48.textContent = 'No moves left. Final score ' + sc + '.'; }
+      else if (!won && g.indexOf(2048) > -1){ won = true; t48.textContent = 'You made 2048! Keep going for a higher score.'; }
+    }
+    function reset(){
+      g = []; for (var i = 0; i < 16; i++) g.push(0);
+      sc = 0; over = false; won = false; t48.textContent = 'Click the board, then use the arrow keys, or swipe.';
+      add(); add(); render(-1);
+    }
+    board.addEventListener('keydown', function(e){
+      var d = {ArrowLeft:0, ArrowRight:1, ArrowUp:2, ArrowDown:3}[e.key];
+      if (d === undefined) return; e.preventDefault(); move(d);
+    });
+    var sx = 0, sy = 0;
+    board.addEventListener('pointerdown', function(e){ sx = e.clientX; sy = e.clientY; board.focus({preventScroll:true}); });
+    board.addEventListener('pointerup', function(e){
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+      move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 0) : (dy > 0 ? 3 : 2));
+    });
+    n48.addEventListener('click', reset); reset();
+  })();
+
+  /* memory match */
+  (function(){
+    var grid = document.getElementById('mgrid'), mv = document.getElementById('mv'), pr = document.getElementById('pr'), bm = document.getElementById('bm'), tm = document.getElementById('tm'), nm = document.getElementById('nm');
+    var set = ['🎮', '🕹️', '👾', '🚀', '🎲', '🧩', '🔥', '⭐'];
+    var first = null, lock = false, moves = 0, pairs = 0, best = 0;
+    function deal(){
+      var a = set.concat(set);
+      for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; }
+      grid.innerHTML = '';
+      a.forEach(function(e){
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'card'; b.dataset.e = e; b.textContent = '✦'; b.setAttribute('aria-label', 'Hidden card');
+        b.addEventListener('click', function(){ flip(b); });
+        grid.appendChild(b);
+      });
+      moves = 0; pairs = 0; first = null; lock = false;
+      mv.textContent = 0; pr.textContent = '0/8'; tm.textContent = 'Find all 8 pairs.';
+    }
+    function flip(b){
+      if (lock || b === first || b.classList.contains('on')) return;
+      b.classList.add('on'); b.textContent = b.dataset.e; b.setAttribute('aria-label', 'Card ' + b.dataset.e);
+      if (!first){ first = b; return; }
+      moves++; mv.textContent = moves;
+      if (first.dataset.e === b.dataset.e){
+        first.classList.add('done'); b.classList.add('done'); first = null; pairs++; pr.textContent = pairs + '/8';
+        if (pairs === 8){
+          if (!best || moves < best){ best = moves; bm.textContent = best; }
+          tm.textContent = 'All pairs found in ' + moves + ' moves. Nice memory!';
+        }
+      } else {
+        lock = true; var a = first; first = null;
+        setTimeout(function(){ [a, b].forEach(function(c){ c.classList.remove('on'); c.textContent = '✦'; c.setAttribute('aria-label', 'Hidden card'); }); lock = false; }, 800);
+      }
+    }
+    nm.addEventListener('click', deal); deal();
+  })();
+
   /* spark catch game */
   (function(){
     var arena = document.getElementById('arena'), gs = document.getElementById('gs'), gt = document.getElementById('gt'), gb = document.getElementById('gb');
@@ -265,7 +584,7 @@ document.documentElement.classList.add('js');
     }
     gstart.addEventListener('click', function(){
       score = 0; left = 20; gs.textContent = 0; gt.textContent = left; running = true; msg.hidden = true;
-      tick = setInterval(function(){ left--; gt.textContent = left; if (left <= 0) end(); }, 1000);
+      tick = setInterval(function(){ left--; gt.textContent = left; if (left <= 0 || !arena.offsetParent) end(); }, 1000);
       spawn();
     });
   })();
